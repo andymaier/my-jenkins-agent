@@ -36,6 +36,6 @@ RUN chmod +x /usr/local/bin/jenkins-agent &&\
 USER ${user}
 
 #install needed tools for morotai jobs
-RUN apt-get update && apt-get install -y zip composer maven
+RUN sudo apt-get update && apt-get install -y zip composer maven
 
 ENTRYPOINT ["jenkins-agent"]
