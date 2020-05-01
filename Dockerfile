@@ -30,12 +30,16 @@ LABEL Description="This is a base image, which allows connecting Jenkins agents 
 ARG user=jenkins
 
 USER root
+
+RUN apt-get update && apt-get install -y zip composer maven
+
 COPY jenkins-agent /usr/local/bin/jenkins-agent
 RUN chmod +x /usr/local/bin/jenkins-agent &&\
     ln -s /usr/local/bin/jenkins-agent /usr/local/bin/jenkins-slave
 USER ${user}
 
 #install needed tools for morotai jobs
-RUN sudo apt-get update && apt-get install -y zip composer maven
+#RUN apt-get update 
+#&& apt-get install -y zip composer maven
 
 ENTRYPOINT ["jenkins-agent"]
