@@ -31,26 +31,14 @@ ARG user=jenkins
 
 USER root
 
-RUN apt-get update && apt-get install -y zip composer maven
-RUN apt-get install --yes \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    gnupg2 \
-    software-properties-common
+RUN apt update && apt -y install apt-transport-https ca-certificates curl gnupg2 software-properties-common
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
-RUN apt-key fingerprint 0EBFCD88
+RUN apt-key fingerprint 7EA0A9C3F273FCD8
 RUN add-apt-repository \
    "deb [arch=amd64] https://download.docker.com/linux/debian \
    $(lsb_release -cs) \
    stable"
-RUN apt-get update
-RUN apt-get install --yes docker-ce docker-ce-cli containerd.io
-
-# install docker-compose
-RUN curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-RUN chmod +x /usr/local/bin/docker-compose
-RUN docker-compose --version
+RUN apt update && apt -y install docker-ce docker-ce-cli containerd.io
 
 COPY jenkins-agent /usr/local/bin/jenkins-agent
 RUN chmod +x /usr/local/bin/jenkins-agent &&\
@@ -61,4 +49,5 @@ USER ${user}
 #RUN apt-get update 
 #&& apt-get install -y zip composer maven
 
-ENTRYPOINT ["jenkins-agent"]
+#ENTRYPOINT ["jenkins-agent"]
+ENTRYPOINT [ "/bin/bash" ]
